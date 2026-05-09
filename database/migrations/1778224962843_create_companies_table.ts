@@ -8,9 +8,10 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('name').notNullable()
       table.string('address').notNullable()
+      table.string('phone').nullable()
       table.string('image').nullable() // Nom du fichier image
-      table.double('latitude').nullable()
-      table.double('longitude').nullable()
+      table.decimal('latitude', 10, 7).nullable()
+      table.decimal('longitude', 10, 7).nullable()
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })

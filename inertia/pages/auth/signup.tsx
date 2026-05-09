@@ -4,8 +4,8 @@ export default function Signup() {
   return (
     <div className="form-container">
       <div>
-        <h1> Signup </h1>
-        <p>Enter your details below to create your account</p>
+        <h1> Administrateur CNSS </h1>
+        <p>Créer le compte administrateur initial. Cette inscription n'est disponible qu'une seule fois.</p>
       </div>
 
       <div>
@@ -61,7 +61,7 @@ export default function Signup() {
 
               <div>
                 <button type="submit" className="button">
-                  Sign up
+                  Créer le compte administrateur
                 </button>
               </div>
             </>
