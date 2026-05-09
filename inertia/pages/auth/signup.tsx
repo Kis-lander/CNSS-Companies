@@ -60,7 +60,7 @@ export default function Signup() {
               </div>
 
               <div>
-                <button type="submit" className="button">
+                <button type="submit" className="button admin-signup-button">
                   Créer le compte administrateur
                 </button>
               </div>
