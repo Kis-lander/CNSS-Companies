@@ -619,6 +619,9 @@ button:disabled {
 :root.theme-dark .admin-signup-button {
   color: #000000;
 }
+:root.theme-dark .admin-login-button {
+  color: #000000;
+}
 :root.theme-dark .auth-button-login {
   color: #ffffff;
 }
