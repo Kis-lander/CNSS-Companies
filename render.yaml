@@ -31,6 +31,7 @@ services:
 databases:
   - name: gestion-entreprises-cnss-db
     region: frankfurt
-    plan: starter
+    plan: basic-256mb
+    diskSizeGB: 1
     databaseName: gestion_entreprises_cnss
     postgresMajorVersion: "18"
