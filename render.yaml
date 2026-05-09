@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: gestion-entreprises-cnss
+    runtime: node
+    plan: starter
+    region: frankfurt
+    buildCommand: npm ci && npm run build && cd build && npm ci --omit=dev
+    preDeployCommand: cd build && node ace migration:run --force
+    startCommand: cd build && npm run start
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: 24.14.1
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: LOG_LEVEL
+        value: info
+      - key: SESSION_DRIVER
+        value: cookie
+      - key: APP_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: gestion-entreprises-cnss-db
+          property: connectionString
+      - key: OPENAI_API_KEY
+        sync: false
+
+databases:
+  - name: gestion-entreprises-cnss-db
+    region: frankfurt
+    plan: starter
+    databaseName: gestion_entreprises_cnss
+    postgresMajorVersion: "18"
