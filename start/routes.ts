@@ -48,6 +48,7 @@ router
   .post('/companies', [controllers.Companies, 'store'])
   .use(middleware.manageCompanies())
   .as('companies.store')
+router.get('/companies/:id/image', [controllers.Companies, 'image']).as('companies.image')
 router.get('/companies/:id', [controllers.Companies, 'show']).as('companies.show')
 router.get('/companies', [controllers.Companies, 'list']).as('companies.index')
 

@@ -53,7 +53,7 @@ function serializeCompany(company: Company) {
     name: company.name,
     address: company.address,
     phone: company.phone,
-    image: company.image,
+    image: company.image ? `/companies/${company.id}/image` : null,
     latitude: serializeCoordinate(company.latitude),
     longitude: serializeCoordinate(company.longitude),
   }
@@ -122,6 +122,34 @@ export default class CompaniesController {
     return inertia.render('companies/show', {
       company: serializeCompany(company),
     })
+  }
+
+  async image({ params, response }: HttpContext) {
+    const company = await Company.findOrFail(params.id)
+    const image = company.image
+
+    if (!image) {
+      return response.notFound()
+    }
+
+    if (image.startsWith('/uploads/')) {
+      return response.redirect(image)
+    }
+
+    const dataUrlMatch = image.match(/^data:(image\/[a-z0-9.+-]+);base64,(.+)$/i)
+    const mimeType = dataUrlMatch?.[1] ?? 'image/jpeg'
+    const base64 = dataUrlMatch?.[2] ?? image
+
+    try {
+      const imageBuffer = Buffer.from(base64, 'base64')
+
+      response.header('Content-Type', mimeType)
+      response.header('Cache-Control', 'public, max-age=31536000, immutable')
+
+      return response.send(imageBuffer)
+    } catch {
+      return response.notFound()
+    }
   }
 
   async edit({ params, inertia }: HttpContext) {
