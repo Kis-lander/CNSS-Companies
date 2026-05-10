@@ -30,6 +30,10 @@ export default function UserLogin() {
                   {processing ? 'Verification...' : 'Login'}
                 </button>
               </div>
+
+              <p className="auth-switch-text">
+                Vous n&apos;avez pas de compte ? <a href="/user/signup">S&apos;inscrire</a>
+              </p>
             </>
           )}
         </Form>

@@ -79,10 +79,13 @@ export default class NewAccountController {
     if (!existingUser) {
       await User.create({
         email: payload.email,
-        fullName: null,
+        fullName: payload.fullName || null,
         password: null,
         role: 'viewer',
       })
+    } else if (!existingUser.fullName && payload.fullName) {
+      existingUser.fullName = payload.fullName
+      await existingUser.save()
     }
 
     session.put('visitor_email', payload.email)

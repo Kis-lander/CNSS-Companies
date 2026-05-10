@@ -103,15 +103,26 @@ export default function Access({ users }: AccessProps) {
                   <span>{user.email}</span>
                   <small>{roleLabels[user.role]}</small>
                 </div>
-                {user.role === 'manager' && (
-                  <Form action={{ url: `/admin/access/${user.id}/revoke`, method: 'post' }}>
-                    {({ processing }) => (
-                      <button type="submit" className="button-link button-link-secondary" disabled={processing}>
-                        Retirer
-                      </button>
-                    )}
-                  </Form>
-                )}
+                <div className="access-actions">
+                  {user.role === 'manager' && (
+                    <Form action={{ url: `/admin/access/${user.id}/revoke`, method: 'post' }}>
+                      {({ processing }) => (
+                        <button type="submit" className="button-link button-link-secondary" disabled={processing}>
+                          Retirer
+                        </button>
+                      )}
+                    </Form>
+                  )}
+                  {user.role !== 'admin' && (
+                    <Form action={{ url: `/admin/access/${user.id}/delete`, method: 'post' }}>
+                      {({ processing }) => (
+                        <button type="submit" className="button-link button-link-danger" disabled={processing}>
+                          Supprimer
+                        </button>
+                      )}
+                    </Form>
+                  )}
+                </div>
               </article>
             ))}
           </div>

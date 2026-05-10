@@ -78,3 +78,11 @@ router
     router.post('/logout', [controllers.Session, 'destroy']).as('session.destroy')
   })
   .use(middleware.auth())
+
+router
+  .group(() => {
+    router.get('/account/edit', [controllers.Account, 'edit']).as('account.edit')
+    router.post('/account', [controllers.Account, 'update']).as('account.update')
+    router.post('/admin/access/:id/delete', [controllers.Access, 'destroy']).as('admin.access.destroy')
+  })
+  .use(middleware.admin())

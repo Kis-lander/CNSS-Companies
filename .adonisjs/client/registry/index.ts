@@ -162,6 +162,24 @@ const routes = {
     tokens: [{"old":"/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['session.destroy']['types'],
   },
+  'account.edit': {
+    methods: ["GET","HEAD"],
+    pattern: '/account/edit',
+    tokens: [{"old":"/account/edit","type":0,"val":"account","end":""},{"old":"/account/edit","type":0,"val":"edit","end":""}],
+    types: placeholder as Registry['account.edit']['types'],
+  },
+  'account.update': {
+    methods: ["POST"],
+    pattern: '/account',
+    tokens: [{"old":"/account","type":0,"val":"account","end":""}],
+    types: placeholder as Registry['account.update']['types'],
+  },
+  'admin.access.destroy': {
+    methods: ["POST"],
+    pattern: '/admin/access/:id/delete',
+    tokens: [{"old":"/admin/access/:id/delete","type":0,"val":"admin","end":""},{"old":"/admin/access/:id/delete","type":0,"val":"access","end":""},{"old":"/admin/access/:id/delete","type":1,"val":"id","end":""},{"old":"/admin/access/:id/delete","type":0,"val":"delete","end":""}],
+    types: placeholder as Registry['admin.access.destroy']['types'],
+  },
 } as const satisfies Record<string, AdonisEndpoint>
 
 export { routes }

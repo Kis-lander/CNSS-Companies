@@ -16,6 +16,19 @@ export default function UserSignup() {
           {({ errors, processing }) => (
             <>
               <div>
+                <label htmlFor="fullName">Nom complet</label>
+                <input
+                  id="fullName"
+                  name="fullName"
+                  type="text"
+                  autoComplete="name"
+                  placeholder="Votre nom complet"
+                  data-invalid={errors.fullName ? 'true' : undefined}
+                />
+                {errors.fullName && <div>{errors.fullName}</div>}
+              </div>
+
+              <div>
                 <label htmlFor="email">Adresse email</label>
                 <input
                   id="email"

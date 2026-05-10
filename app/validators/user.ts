@@ -18,6 +18,7 @@ export const signupValidator = vine.create({
 })
 
 export const emailRegistrationValidator = vine.create({
+  fullName: vine.string().nullable().optional(),
   email: email(),
 })
 

@@ -33,6 +33,7 @@ export interface ApiDefinition {
     access: typeof routes['admin.access'] & {
       grant: typeof routes['admin.access.grant']
       revoke: typeof routes['admin.access.revoke']
+      destroy: typeof routes['admin.access.destroy']
     }
   }
   newAccount: {
@@ -46,5 +47,9 @@ export interface ApiDefinition {
   }
   email: {
     registration: typeof routes['email.registration']
+  }
+  account: {
+    edit: typeof routes['account.edit']
+    update: typeof routes['account.update']
   }
 }

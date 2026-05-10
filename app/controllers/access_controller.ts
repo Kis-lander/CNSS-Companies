@@ -65,4 +65,18 @@ export default class AccessController {
     session.flash('success', 'Le droit de gestion a ete retire.')
     return response.redirect('/admin/access')
   }
+
+  async destroy({ params, response, session, auth }: HttpContext) {
+    const user = await User.findOrFail(params.id)
+
+    if (user.id === auth.user?.id || user.role === 'admin') {
+      session.flash('error', "Vous ne pouvez pas supprimer le compte administrateur CNSS.")
+      return response.redirect().back()
+    }
+
+    await user.delete()
+
+    session.flash('success', 'Le compte utilisateur a ete supprime.')
+    return response.redirect('/admin/access')
+  }
 }

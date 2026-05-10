@@ -30,6 +30,9 @@ export type ScannedRoutes = {
     'session.store': { paramsTuple?: []; params?: {} }
     'email.registration': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }
+    'account.edit': { paramsTuple?: []; params?: {} }
+    'account.update': { paramsTuple?: []; params?: {} }
+    'admin.access.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   GET: {
     'auth.status': { paramsTuple?: []; params?: {} }
@@ -48,6 +51,7 @@ export type ScannedRoutes = {
     'admin.access': { paramsTuple?: []; params?: {} }
     'new_account.create': { paramsTuple?: []; params?: {} }
     'session.create': { paramsTuple?: []; params?: {} }
+    'account.edit': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'auth.status': { paramsTuple?: []; params?: {} }
@@ -66,6 +70,7 @@ export type ScannedRoutes = {
     'admin.access': { paramsTuple?: []; params?: {} }
     'new_account.create': { paramsTuple?: []; params?: {} }
     'session.create': { paramsTuple?: []; params?: {} }
+    'account.edit': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'visitor.login.store': { paramsTuple?: []; params?: {} }
@@ -78,6 +83,8 @@ export type ScannedRoutes = {
     'session.store': { paramsTuple?: []; params?: {} }
     'email.registration': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }
+    'account.update': { paramsTuple?: []; params?: {} }
+    'admin.access.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

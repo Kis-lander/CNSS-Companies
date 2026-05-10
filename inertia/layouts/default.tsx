@@ -1,7 +1,7 @@
 import { Data } from '@generated/data'
 import { toast, Toaster } from 'sonner'
 import { router, usePage } from '@inertiajs/react'
-import { ReactElement, useEffect, useRef, useState } from 'react'
+import { MouseEvent, ReactElement, useEffect, useRef, useState } from 'react'
 import { Form, Link } from '@adonisjs/inertia/react'
 
 const cnssLogo = 'https://cnss.cd/wp-content/uploads/2025/01/LOGO-CNSSPDF_preview_rev_1.png'
@@ -45,6 +45,7 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
   const [splashVisible, setSplashVisible] = useState(true)
   const [splashStep, setSplashStep] = useState<'logo' | 'map'>('logo')
   const roleSyncPending = useRef(false)
+  const headerRef = useRef<HTMLElement | null>(null)
   const sharedProps = page.props
   const roleLabels = {
     admin: 'Administrateur CNSS',
@@ -72,6 +73,19 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
     setMenuOpen(false)
     setProfileOpen(false)
   }, [page.url])
+
+  useEffect(() => {
+    const closeMenus = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) {
+        setMenuOpen(false)
+        setProfileOpen(false)
+      }
+    }
+
+    document.addEventListener('pointerdown', closeMenus)
+
+    return () => document.removeEventListener('pointerdown', closeMenus)
+  }, [])
 
   useEffect(() => {
     fetch('/auth/status')
@@ -169,6 +183,12 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
   }, [theme])
 
   useEffect(() => {
+    document.body.classList.toggle('menu-open', menuOpen)
+
+    return () => document.body.classList.remove('menu-open')
+  }, [menuOpen])
+
+  useEffect(() => {
     const secondStep = window.setTimeout(() => setSplashStep('map'), 1900)
     const hideSplash = window.setTimeout(() => setSplashVisible(false), 3900)
 
@@ -187,6 +207,13 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
     }
   })
 
+  const handleEmptyClick = (event: MouseEvent<HTMLElement>) => {
+    if (event.target === event.currentTarget) {
+      setMenuOpen(false)
+      setProfileOpen(false)
+    }
+  }
+
   return (
     <>
       {splashVisible && (
@@ -199,7 +226,7 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
           </div>
         </div>
       )}
-      <header>
+      <header ref={headerRef}>
         <div className="header-shell">
           <div className="header-brand">
             <a href="/" className="header-logo-link">
@@ -216,14 +243,17 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
             className="menu-toggle"
             aria-label="Ouvrir le menu"
             aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((isOpen) => !isOpen)}
+            onClick={() => {
+              setMenuOpen((isOpen) => !isOpen)
+              setProfileOpen(false)
+            }}
           >
             <span />
             <span />
             <span />
           </button>
 
-          <div className={menuOpen ? 'header-menu is-open' : 'header-menu'}>
+          <div className={menuOpen ? 'header-menu is-open' : 'header-menu'} onClick={handleEmptyClick}>
             <nav className={navigationClassName} aria-label="Navigation principale">
               {navigationLinks.map((link) => (
                 <a className={page.url === link.href ? 'current' : undefined} href={link.href} key={link.href}>
@@ -250,7 +280,10 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
                       className="profile-button"
                       aria-label="Afficher les informations du compte"
                       aria-expanded={profileOpen}
-                      onClick={() => setProfileOpen((isOpen) => !isOpen)}
+                      onClick={() => {
+                        setProfileOpen((isOpen) => !isOpen)
+                        setMenuOpen(false)
+                      }}
                     >
                       {sharedProps.user.initials}
                     </button>
@@ -259,6 +292,11 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
                         <strong>{sharedProps.user.fullName || 'Administrateur CNSS'}</strong>
                         <span>{sharedProps.user.email}</span>
                         <small>{roleLabels[sharedProps.user.role ?? 'viewer']}</small>
+                        {sharedProps.user.isAdmin && (
+                          <a href="/account/edit" className="profile-panel-link">
+                            Editer le compte
+                          </a>
+                        )}
                       </div>
                     )}
                   </div>

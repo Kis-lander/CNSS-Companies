@@ -5,6 +5,7 @@
 
 export const controllers = {
   Access: () => import('#controllers/access_controller'),
+  Account: () => import('#controllers/account_controller'),
   Companies: () => import('#controllers/companies_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
   Session: () => import('#controllers/session_controller'),
