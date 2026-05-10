@@ -19,6 +19,7 @@ router.get('/user/login', [controllers.NewAccount, 'createVisitorLogin']).as('vi
 router.post('/user/login', [controllers.NewAccount, 'registerViewer']).as('visitor.login.store')
 router.get('/welcome', [controllers.NewAccount, 'welcomeVisitor']).as('visitor.welcome')
 router.post('/welcome/continue', [controllers.NewAccount, 'continueVisitor']).as('visitor.continue')
+router.post('/user/logout', [controllers.NewAccount, 'logoutVisitor']).as('visitor.logout')
 
 router.get('/help', [controllers.Companies, 'help']).as('help')
 

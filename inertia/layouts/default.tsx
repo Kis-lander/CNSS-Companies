@@ -282,7 +282,6 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
                       aria-expanded={profileOpen}
                       onClick={() => {
                         setProfileOpen((isOpen) => !isOpen)
-                        setMenuOpen(false)
                       }}
                     >
                       {sharedProps.user.initials}
@@ -300,7 +299,7 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
                       </div>
                     )}
                   </div>
-                  <Form route="session.destroy">
+                  <Form action={{ url: sharedProps.user.isAdmin ? '/logout' : '/user/logout', method: 'post' }}>
                     <button type="submit" className="logout-button">
                       Logout
                     </button>

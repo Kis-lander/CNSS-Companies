@@ -1,6 +1,6 @@
 import User from '#models/user'
 import { getCurrentUser } from '#services/current_user_service'
-import { markAdminOffline, markAdminOnline } from '#services/admin_presence_service'
+import { isAdminOnline, markAdminOffline, markAdminOnline } from '#services/admin_presence_service'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class SessionController {
@@ -38,6 +38,10 @@ export default class SessionController {
       return response.redirect().toRoute('new_account.create')
     }
 
+    if (isAdminOnline()) {
+      return response.redirect().toRoute('visitor.login')
+    }
+
     return inertia.render('auth/login', {})
   }
 
@@ -66,7 +70,12 @@ export default class SessionController {
     response.redirect().toRoute('home')
   }
 
-  async destroy({ auth, response }: HttpContext) {
+  async destroy({ auth, response, session }: HttpContext) {
+    if (session.get('visitor_email')) {
+      session.forget('visitor_email')
+      return response.redirect().toRoute('visitor.login')
+    }
+
     if (auth.user?.isAdmin) {
       markAdminOffline()
     }

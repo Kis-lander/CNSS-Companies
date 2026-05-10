@@ -8,17 +8,7 @@ import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 export class CompanySchema extends BaseModel {
-  static $columns = [
-    'address',
-    'createdAt',
-    'id',
-    'image',
-    'latitude',
-    'longitude',
-    'name',
-    'phone',
-    'updatedAt',
-  ] as const
+  static $columns = ['address', 'createdAt', 'id', 'image', 'latitude', 'longitude', 'name', 'phone', 'updatedAt'] as const
   $columns = CompanySchema.$columns
   @column()
   declare address: string
@@ -40,16 +30,27 @@ export class CompanySchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class NonAdminUserSchema extends BaseModel {
+  static $columns = ['createdAt', 'email', 'fullName', 'id', 'role', 'updatedAt', 'userId'] as const
+  $columns = NonAdminUserSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare email: string
+  @column()
+  declare fullName: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare role: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number | null
+}
+
 export class UserSchema extends BaseModel {
-  static $columns = [
-    'createdAt',
-    'email',
-    'fullName',
-    'id',
-    'password',
-    'role',
-    'updatedAt',
-  ] as const
+  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'role', 'updatedAt'] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

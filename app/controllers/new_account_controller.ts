@@ -135,4 +135,9 @@ export default class NewAccountController {
 
     return response.redirect().toRoute('home')
   }
+
+  async logoutVisitor({ response, session }: HttpContext) {
+    session.forget('visitor_email')
+    return response.redirect().toRoute('visitor.login')
+  }
 }

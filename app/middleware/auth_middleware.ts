@@ -19,7 +19,9 @@ export default class AuthMiddleware {
       guards?: (keyof Authenticators)[]
     } = {}
   ) {
-    await ctx.auth.authenticateUsing(options.guards, { loginRoute: this.redirectTo })
+    const loginRoute = ctx.session.get('visitor_email') ? '/user/login' : this.redirectTo
+
+    await ctx.auth.authenticateUsing(options.guards, { loginRoute })
     return next()
   }
 }
