@@ -1,9 +1,9 @@
-import app from '@adonisjs/core/services/app'
 import Company from '#models/company'
 import User from '#models/user'
-import { randomUUID } from 'node:crypto'
+import { readFile } from 'node:fs/promises'
 import { geocodeAddress } from '#services/geocoding_service'
 import type { HttpContext } from '@adonisjs/core/http'
+import type { MultipartFile } from '@adonisjs/bodyparser'
 import { companyUpdateValidator, companyValidator } from '#validators/company'
 
 function parseCoordinate(value: unknown, min: number, max: number) {
@@ -63,6 +63,17 @@ function normalizePhone(value: string | undefined) {
   const phone = value?.trim()
 
   return phone ? phone : null
+}
+
+async function imageToDataUrl(image: MultipartFile) {
+  if (!image.tmpPath) {
+    return null
+  }
+
+  const buffer = await readFile(image.tmpPath)
+  const mimeType = image.type && image.subtype ? `${image.type}/${image.subtype}` : `image/${image.extname}`
+
+  return `data:${mimeType};base64,${buffer.toString('base64')}`
 }
 
 export default class CompaniesController {
@@ -155,11 +166,7 @@ export default class CompaniesController {
     let imagePath = company.image
 
     if (image) {
-      const fileName = `${randomUUID()}.${image.extname}`
-      await image.move(app.makePath('public/uploads'), {
-        name: fileName,
-      })
-      imagePath = `/uploads/${fileName}`
+      imagePath = await imageToDataUrl(image)
     }
 
     const addressChanged = payload.address !== company.address
@@ -231,11 +238,7 @@ export default class CompaniesController {
     let imagePath: string | null = null
 
     if (image) {
-      const fileName = `${randomUUID()}.${image.extname}`
-      await image.move(app.makePath('public/uploads'), {
-        name: fileName,
-      })
-      imagePath = `/uploads/${fileName}`
+      imagePath = await imageToDataUrl(image)
     }
 
     await Company.create({

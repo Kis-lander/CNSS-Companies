@@ -11,6 +11,7 @@ export type ScannedRoutes = {
     'visitor.login.store': { paramsTuple?: []; params?: {} }
     'visitor.welcome': { paramsTuple?: []; params?: {} }
     'visitor.continue': { paramsTuple?: []; params?: {} }
+    'visitor.logout': { paramsTuple?: []; params?: {} }
     'help': { paramsTuple?: []; params?: {} }
     'home': { paramsTuple?: []; params?: {} }
     'companies.create': { paramsTuple?: []; params?: {} }
@@ -75,6 +76,7 @@ export type ScannedRoutes = {
   POST: {
     'visitor.login.store': { paramsTuple?: []; params?: {} }
     'visitor.continue': { paramsTuple?: []; params?: {} }
+    'visitor.logout': { paramsTuple?: []; params?: {} }
     'companies.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'companies.store': { paramsTuple?: []; params?: {} }
     'admin.access.grant': { paramsTuple?: []; params?: {} }

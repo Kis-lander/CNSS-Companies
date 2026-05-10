@@ -48,6 +48,12 @@ const routes = {
     tokens: [{"old":"/welcome/continue","type":0,"val":"welcome","end":""},{"old":"/welcome/continue","type":0,"val":"continue","end":""}],
     types: placeholder as Registry['visitor.continue']['types'],
   },
+  'visitor.logout': {
+    methods: ["POST"],
+    pattern: '/user/logout',
+    tokens: [{"old":"/user/logout","type":0,"val":"user","end":""},{"old":"/user/logout","type":0,"val":"logout","end":""}],
+    types: placeholder as Registry['visitor.logout']['types'],
+  },
   'help': {
     methods: ["GET","HEAD"],
     pattern: '/help',

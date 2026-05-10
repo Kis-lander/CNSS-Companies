@@ -91,6 +91,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['continueVisitor']>>>
     }
   }
+  'visitor.logout': {
+    methods: ["POST"]
+    pattern: '/user/logout'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['logoutVisitor']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['logoutVisitor']>>>
+    }
+  }
   'help': {
     methods: ["GET","HEAD"]
     pattern: '/help'

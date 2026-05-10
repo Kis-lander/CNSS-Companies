@@ -13,6 +13,7 @@ export interface ApiDefinition {
     }
     welcome: typeof routes['visitor.welcome']
     continue: typeof routes['visitor.continue']
+    logout: typeof routes['visitor.logout']
   }
   help: typeof routes['help']
   home: typeof routes['home']
