@@ -1,4 +1,5 @@
 import User from '#models/user'
+import NonAdminUser from '#models/non_admin_user'
 import { accessGrantValidator } from '#validators/user'
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -47,6 +48,18 @@ export default class AccessController {
       })
     }
 
+    const manager = await User.findByOrFail('email', payload.email)
+
+    await NonAdminUser.updateOrCreate(
+      { email: manager.email },
+      {
+        userId: manager.id,
+        email: manager.email,
+        fullName: manager.fullName,
+        role: 'manager',
+      }
+    )
+
     session.flash('success', "Le droit d'enregistrer et modifier les entreprises a ete accorde.")
     return response.redirect('/admin/access')
   }
@@ -62,6 +75,16 @@ export default class AccessController {
     user.role = 'viewer'
     await user.save()
 
+    await NonAdminUser.updateOrCreate(
+      { email: user.email },
+      {
+        userId: user.id,
+        email: user.email,
+        fullName: user.fullName,
+        role: 'viewer',
+      }
+    )
+
     session.flash('success', 'Le droit de gestion a ete retire.')
     return response.redirect('/admin/access')
   }
@@ -74,6 +97,7 @@ export default class AccessController {
       return response.redirect().back()
     }
 
+    await NonAdminUser.query().where('email', user.email).delete()
     await user.delete()
 
     session.flash('success', 'Le compte utilisateur a ete supprime.')

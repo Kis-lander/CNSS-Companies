@@ -1,4 +1,5 @@
 import User from '#models/user'
+import NonAdminUser from '#models/non_admin_user'
 import { emailRegistrationValidator, signupValidator } from '#validators/user'
 import { isRecognizedByGoogle } from '#services/email_recognition_service'
 import { isAdminOnline } from '#services/admin_presence_service'
@@ -77,15 +78,34 @@ export default class NewAccountController {
     const existingUser = await User.findBy('email', payload.email)
 
     if (!existingUser) {
-      await User.create({
+      const user = await User.create({
         email: payload.email,
         fullName: payload.fullName || null,
         password: null,
         role: 'viewer',
       })
+
+      await NonAdminUser.create({
+        userId: user.id,
+        email: user.email,
+        fullName: user.fullName,
+        role: 'viewer',
+      })
     } else if (!existingUser.fullName && payload.fullName) {
       existingUser.fullName = payload.fullName
       await existingUser.save()
+    }
+
+    if (existingUser && existingUser.role !== 'admin') {
+      await NonAdminUser.updateOrCreate(
+        { email: existingUser.email },
+        {
+          userId: existingUser.id,
+          email: existingUser.email,
+          fullName: existingUser.fullName,
+          role: existingUser.role === 'manager' ? 'manager' : 'viewer',
+        }
+      )
     }
 
     session.put('visitor_email', payload.email)
