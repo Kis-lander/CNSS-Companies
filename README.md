@@ -2,13 +2,23 @@
 
 Application web de gestion et de localisation des entreprises enregistrées auprès de la CNSS. Elle permet à un administrateur CNSS d'enregistrer et de modifier les entreprises, et aux utilisateurs visiteurs de rechercher une entreprise puis de consulter sa localisation.
 
-## Stack
+## Liens
+
+- Application hebergee: https://gestion-entreprises-cnss.onrender.com
+- Manuel d'emploi: https://docs.google.com/présentation/d/1hUbrptMRvLWQe3412paHveAs3KNFEEilUH7SAi9Wehk/edit?usp=sharing
+
+## Stack (technologies)
+
+### Backend
 
 - AdonisJS
-- Inertia.js
-- React
 - TypeScript
 - PostgreSQL
+
+### Frontend
+
+- Inertia.js
+- React
 - Vite
 
 ## Fonctionnalites
