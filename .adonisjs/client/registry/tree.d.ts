@@ -27,6 +27,7 @@ export interface ApiDefinition {
     }
     update: typeof routes['companies.update']
     store: typeof routes['companies.store']
+    image: typeof routes['companies.image']
     show: typeof routes['companies.show']
     index: typeof routes['companies.index']
   }

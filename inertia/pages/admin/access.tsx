@@ -33,7 +33,7 @@ export default function Access({ users }: AccessProps) {
       </section>
 
       <section className="access-workspace">
-        <aside className="company-panel">
+        <aside className="company-panel access-form-panel">
           <h2>Donner le droit de gestion</h2>
           <Form action={{ url: '/admin/access', method: 'post' }}>
             {({ errors, processing }) => (
@@ -93,7 +93,7 @@ export default function Access({ users }: AccessProps) {
           </Form>
         </aside>
 
-        <section className="company-edit-panel">
+        <section className="company-edit-panel access-users-panel">
           <h2>Utilisateurs</h2>
           <div className="access-list">
             {users.map((user) => (

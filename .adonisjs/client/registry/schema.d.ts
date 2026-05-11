@@ -199,6 +199,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/companies_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'companies.image': {
+    methods: ["GET","HEAD"]
+    pattern: '/companies/:id/image'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/companies_controller').default['image']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/companies_controller').default['image']>>>
+    }
+  }
   'companies.show': {
     methods: ["GET","HEAD"]
     pattern: '/companies/:id'

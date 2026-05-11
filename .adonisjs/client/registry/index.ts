@@ -102,6 +102,12 @@ const routes = {
     tokens: [{"old":"/companies","type":0,"val":"companies","end":""}],
     types: placeholder as Registry['companies.store']['types'],
   },
+  'companies.image': {
+    methods: ["GET","HEAD"],
+    pattern: '/companies/:id/image',
+    tokens: [{"old":"/companies/:id/image","type":0,"val":"companies","end":""},{"old":"/companies/:id/image","type":1,"val":"id","end":""},{"old":"/companies/:id/image","type":0,"val":"image","end":""}],
+    types: placeholder as Registry['companies.image']['types'],
+  },
   'companies.show': {
     methods: ["GET","HEAD"],
     pattern: '/companies/:id',

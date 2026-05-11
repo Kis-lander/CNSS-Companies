@@ -1150,6 +1150,7 @@ button:disabled {
   grid-template-columns: minmax(280px, 420px) minmax(320px, 1fr);
   gap: 24px;
   align-items: start;
+  min-height: 0;
 }
 .company-selector-panel,
 .company-edit-panel {
@@ -1167,6 +1168,12 @@ button:disabled {
 }
 .company-edit-panel form {
   gap: 20px;
+}
+.access-form-panel,
+.access-users-panel {
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 .access-list {
   display: grid;
@@ -1557,6 +1564,10 @@ button:disabled {
   }
   .access-workspace {
     grid-template-columns: 1fr;
+  }
+  .access-form-panel,
+  .access-users-panel {
+    max-height: min(520px, calc(100vh - 120px));
   }
   .company-selector-panel {
     position: static;

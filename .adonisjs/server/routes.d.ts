@@ -20,6 +20,7 @@ export type ScannedRoutes = {
     'companies.edit.selected': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'companies.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'companies.store': { paramsTuple?: []; params?: {} }
+    'companies.image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'companies.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'companies.index': { paramsTuple?: []; params?: {} }
     'admin.access': { paramsTuple?: []; params?: {} }
@@ -47,6 +48,7 @@ export type ScannedRoutes = {
     'companies.edit': { paramsTuple?: []; params?: {} }
     'companies.address.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'companies.edit.selected': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'companies.image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'companies.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'companies.index': { paramsTuple?: []; params?: {} }
     'admin.access': { paramsTuple?: []; params?: {} }
@@ -66,6 +68,7 @@ export type ScannedRoutes = {
     'companies.edit': { paramsTuple?: []; params?: {} }
     'companies.address.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'companies.edit.selected': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'companies.image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'companies.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'companies.index': { paramsTuple?: []; params?: {} }
     'admin.access': { paramsTuple?: []; params?: {} }
