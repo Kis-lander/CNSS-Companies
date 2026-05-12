@@ -4,8 +4,8 @@ export default function UserLogin() {
   return (
     <div className="form-container">
       <div>
-        <h1>Login utilisateur</h1>
-        <p>Entrez votre adresse email pour acceder a la plateforme.</p>
+        <h1>Connexion utilisateur</h1>
+        <p>Entrez votre adresse email pour accéder à la plateforme.</p>
       </div>
 
       <div>
@@ -27,7 +27,7 @@ export default function UserLogin() {
 
               <div>
                 <button type="submit" className="visitor-register-button" disabled={processing}>
-                  {processing ? 'Verification...' : 'Login'}
+                  {processing ? 'Vérification...' : 'Connexion'}
                 </button>
               </div>
 

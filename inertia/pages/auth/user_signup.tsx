@@ -6,7 +6,7 @@ export default function UserSignup() {
       <div>
         <h1>Inscription utilisateur</h1>
         <p>
-          Entrez votre adresse email pour acceder a la recherche et a la localisation des
+          Entrez votre adresse email pour accéder à la recherche et à la localisation des
           entreprises.
         </p>
       </div>
@@ -43,7 +43,7 @@ export default function UserSignup() {
 
               <div>
                 <button type="submit" className="visitor-register-button" disabled={processing}>
-                  {processing ? 'Verification...' : "S'inscrire"}
+                  {processing ? 'Vérification...' : "S'inscrire"}
                 </button>
               </div>
             </>

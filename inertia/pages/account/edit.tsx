@@ -11,7 +11,7 @@ export default function EditAccount({ account }: AccountEditProps) {
   return (
     <div className="form-container">
       <div>
-        <h1>Editer le compte administrateur</h1>
+        <h1>Éditer le compte administrateur</h1>
         <p>Modifier les informations du compte administrateur CNSS.</p>
       </div>
 

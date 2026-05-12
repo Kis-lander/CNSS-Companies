@@ -4,8 +4,8 @@ export default function Login() {
   return (
     <div className="form-container">
       <div>
-        <h1> Login as Admistrator </h1>
-        <p>Enter your details below to login to your account</p>
+        <h1>Connexion administrateur</h1>
+        <p>Entrez vos informations pour accéder à votre compte.</p>
       </div>
 
       <div>
@@ -13,7 +13,7 @@ export default function Login() {
           {({ errors }) => (
             <>
               <div>
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Adresse email</label>
                 <input
                   type="email"
                   name="email"
@@ -25,7 +25,7 @@ export default function Login() {
               </div>
 
               <div>
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">Mot de passe</label>
                 <input
                   type="password"
                   name="password"
@@ -37,7 +37,7 @@ export default function Login() {
 
               <div>
                 <button type="submit" className="button admin-login-button">
-                  Login
+                  Connexion
                 </button>
               </div>
             </>

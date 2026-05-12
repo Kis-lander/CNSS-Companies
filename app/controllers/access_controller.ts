@@ -60,7 +60,7 @@ export default class AccessController {
       }
     )
 
-    session.flash('success', "Le droit d'enregistrer et modifier les entreprises a ete accorde.")
+    session.flash('success', "Le droit d'enregistrer et modifier les entreprises a été accordé.")
     return response.redirect('/admin/access')
   }
 
@@ -85,7 +85,7 @@ export default class AccessController {
       }
     )
 
-    session.flash('success', 'Le droit de gestion a ete retire.')
+    session.flash('success', 'Le droit de gestion a été retiré.')
     return response.redirect('/admin/access')
   }
 
@@ -100,7 +100,7 @@ export default class AccessController {
     await NonAdminUser.query().where('email', user.email).delete()
     await user.delete()
 
-    session.flash('success', 'Le compte utilisateur a ete supprime.')
+    session.flash('success', 'Le compte utilisateur a été supprimé.')
     return response.redirect('/admin/access')
   }
 }

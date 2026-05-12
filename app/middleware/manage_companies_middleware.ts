@@ -7,7 +7,7 @@ export default class ManageCompaniesMiddleware {
     const user = await getCurrentUser(ctx)
 
     if (!user?.canManageCompanies) {
-      ctx.session.flash('error', "Vous n'avez pas le droit d'acceder a cette page.")
+      ctx.session.flash('error', "Vous n'avez pas le droit d'accéder à cette page.")
       return ctx.response.redirect().toRoute('home')
     }
 

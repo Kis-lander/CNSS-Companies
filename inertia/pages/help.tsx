@@ -4,7 +4,7 @@ import { Data } from '@generated/data'
 const adminHelpSteps = [
   {
     title: 'Enregistrer une entreprise',
-    text: "Ajoutez le nom, l'adresse, le numero de telephone et l'image. L'application cherche automatiquement les coordonnees a partir de l'adresse.",
+    text: "Ajoutez le nom, l'adresse, le numéro de téléphone et l'image. L'application cherche automatiquement les coordonnées à partir de l'adresse.",
   },
   {
     title: "Rechercher depuis l'accueil",
@@ -12,11 +12,11 @@ const adminHelpSteps = [
   },
   {
     title: 'Consulter la carte',
-    text: "La fiche entreprise affiche l'image, les informations enregistrees et la position sur la carte quand les coordonnees sont disponibles.",
+    text: "La fiche entreprise affiche l'image, les informations enregistrées et la position sur la carte quand les coordonnées sont disponibles.",
   },
   {
     title: 'Modifier les informations',
-    text: "Mettez a jour le nom, l'adresse, le telephone ou l'image. Si l'adresse change, les coordonnees peuvent etre recalculees automatiquement.",
+    text: "Mettez à jour le nom, l'adresse, le téléphone ou l'image. Si l'adresse change, les coordonnées peuvent être recalculées automatiquement.",
   },
 ]
 
@@ -27,7 +27,7 @@ const userHelpSteps = [
   },
   {
     title: 'Consulter la localisation',
-    text: "La fiche entreprise affiche l'image, les informations disponibles et la position sur la carte quand les coordonnees sont disponibles.",
+    text: "La fiche entreprise affiche l'image, les informations disponibles et la position sur la carte quand les coordonnées sont disponibles.",
   },
 ]
 
@@ -70,7 +70,7 @@ export default function Help() {
           <>
             <h2>Conseil pour les adresses</h2>
             <p>
-              Utilisez un format precis comme: 11, Avenue Lubefu, Ngaliema, Kinshasa, RDC. Plus l'adresse est complete,
+              Utilisez un format précis comme: 11, Avenue Lubefu, Ngaliema, Kinshasa, RDC. Plus l'adresse est complète,
               plus la localisation automatique a de chances de trouver une position correcte.
             </p>
           </>

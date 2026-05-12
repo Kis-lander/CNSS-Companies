@@ -13,7 +13,7 @@ export default function Signup() {
           {({ errors }) => (
             <>
               <div>
-                <label htmlFor="fullName">Full name</label>
+                <label htmlFor="fullName">Nom complet</label>
                 <input
                   type="text"
                   name="fullName"
@@ -24,7 +24,7 @@ export default function Signup() {
               </div>
 
               <div>
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Adresse email</label>
                 <input
                   type="email"
                   name="email"
@@ -36,7 +36,7 @@ export default function Signup() {
               </div>
 
               <div>
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">Mot de passe</label>
                 <input
                   type="password"
                   name="password"
@@ -48,7 +48,7 @@ export default function Signup() {
               </div>
 
               <div>
-                <label htmlFor="passwordConfirmation">Confirm password</label>
+                <label htmlFor="passwordConfirmation">Confirmer le mot de passe</label>
                 <input
                   type="password"
                   name="passwordConfirmation"

@@ -62,7 +62,7 @@ export default class NewAccountController {
     const payload = await request.validateUsing(signupValidator)
     await User.create({ ...payload, role: 'admin' })
 
-    session.flash('success', 'Compte administrateur CNSS cree. Connectez-vous pour continuer.')
+    session.flash('success', 'Compte administrateur CNSS créé. Connectez-vous pour continuer.')
     response.redirect().toRoute('session.create')
   }
 
@@ -110,7 +110,7 @@ export default class NewAccountController {
 
     session.put('visitor_email', payload.email)
 
-    session.flash('success', 'Votre adresse email a ete enregistree avec succes.')
+    session.flash('success', 'Votre adresse email a été enregistrée avec succès.')
     return response.redirect('/welcome')
   }
 

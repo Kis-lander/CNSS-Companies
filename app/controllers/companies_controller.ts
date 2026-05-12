@@ -237,7 +237,7 @@ export default class CompaniesController {
 
     await company.save()
 
-    session.flash('success', "L'entreprise a ete modifiee avec succes.")
+    session.flash('success', "L'entreprise a été modifiée avec succès.")
     return response.redirect(`/companies/${company.id}`)
   }
 
@@ -258,7 +258,7 @@ export default class CompaniesController {
     if (!coordinates) {
       session.flash(
         'error',
-        "L'adresse n'a pas pu etre localisee. Ajoutez plus de precision: avenue, commune, ville et RDC."
+        "L'adresse n'a pas pu être localisée. Ajoutez plus de précision: avenue, commune, ville et RDC."
       )
       return response.redirect().back()
     }
@@ -278,7 +278,7 @@ export default class CompaniesController {
       longitude: coordinates.longitude,
     })
 
-    session.flash('success', 'Entreprise enregistree avec succes.')
+    session.flash('success', 'Entreprise enregistrée avec succès.')
     return response.redirect('/companies')
   }
 }

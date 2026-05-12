@@ -62,7 +62,7 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
         ]
       : []),
     ...(sharedProps.user?.isAdmin ? [{ href: '/admin/access', label: 'Accès' }] : []),
-    { href: '/help', label: 'Help' },
+    { href: '/help', label: 'Aide' },
   ]
   const navigationClassName = sharedProps.user?.canManageCompanies
     ? 'header-navigation is-admin'
@@ -293,7 +293,7 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
                         <small>{roleLabels[sharedProps.user.role ?? 'viewer']}</small>
                         {sharedProps.user.isAdmin && (
                           <a href="/account/edit" className="profile-panel-link">
-                            Editer le compte
+                            Éditer le compte
                           </a>
                         )}
                       </div>
@@ -301,7 +301,7 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
                   </div>
                   <Form action={{ url: sharedProps.user.isAdmin ? '/logout' : '/user/logout', method: 'post' }}>
                     <button type="submit" className="logout-button">
-                      Logout
+                      Déconnexion
                     </button>
                   </Form>
                 </>
@@ -309,12 +309,12 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
                 <>
                   {adminExists && (
                     <a href={adminOnline ? '/user/login' : '/login'} className="auth-button auth-button-login">
-                      Login
+                      Connexion
                     </a>
                   )}
                   {!adminExists && (
                     <Link route="new_account.create" className="auth-button auth-button-signup">
-                      Sign up
+                      Créer un compte
                     </Link>
                   )}
                 </>
@@ -342,7 +342,7 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
             <a href="/">Accueil</a>
             <a href="/companies">Entreprises enregistrées</a>
             <a href="/companies/create">Enregistrer une entreprise</a>
-            <a href="/help">Help</a>
+            <a href="/help">Aide</a>
           </div>
 
           <div className="footer-column">

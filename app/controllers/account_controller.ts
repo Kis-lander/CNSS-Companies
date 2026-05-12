@@ -68,7 +68,7 @@ export default class AccountController {
 
     await user.save()
 
-    session.flash('success', 'Votre compte a ete mis a jour.')
+    session.flash('success', 'Votre compte a été mis à jour.')
     return response.redirect('/account/edit')
   }
 }
