@@ -41,7 +41,6 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
   const [profileOpen, setProfileOpen] = useState(false)
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const [adminExists, setAdminExists] = useState(true)
-  const [adminOnline, setAdminOnline] = useState(false)
   const [splashVisible, setSplashVisible] = useState(true)
   const [splashStep, setSplashStep] = useState<'logo' | 'map'>('logo')
   const roleSyncPending = useRef(false)
@@ -92,7 +91,6 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
       .then((response) => response.json())
       .then((data: { adminExists?: boolean; adminOnline?: boolean }) => {
         setAdminExists(Boolean(data.adminExists))
-        setAdminOnline(Boolean(data.adminOnline))
       })
       .catch(() => setAdminExists(true))
   }, [])
@@ -145,7 +143,8 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
               }
 
               if (
-                (page.url.startsWith('/companies/create') || page.url.startsWith('/companies/edit')) &&
+                (page.url.startsWith('/companies/create') ||
+                  page.url.startsWith('/companies/edit')) &&
                 !remoteUser.canManageCompanies
               ) {
                 router.visit('/')
@@ -230,11 +229,7 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
         <div className="header-shell">
           <div className="header-brand">
             <a href="/" className="header-logo-link">
-              <img
-                className="header-logo"
-                src={cnssLogo}
-                alt="CNSS"
-              />
+              <img className="header-logo" src={cnssLogo} alt="CNSS" />
             </a>
           </div>
 
@@ -253,10 +248,17 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
             <span />
           </button>
 
-          <div className={menuOpen ? 'header-menu is-open' : 'header-menu'} onClick={handleEmptyClick}>
+          <div
+            className={menuOpen ? 'header-menu is-open' : 'header-menu'}
+            onClick={handleEmptyClick}
+          >
             <nav className={navigationClassName} aria-label="Navigation principale">
               {navigationLinks.map((link) => (
-                <a className={page.url === link.href ? 'current' : undefined} href={link.href} key={link.href}>
+                <a
+                  className={page.url === link.href ? 'current' : undefined}
+                  href={link.href}
+                  key={link.href}
+                >
                   {link.label}
                 </a>
               ))}
@@ -267,7 +269,9 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
                 type="button"
                 className="theme-toggle"
                 aria-label={theme === 'dark' ? 'Passer au mode normal' : 'Passer au mode sombre'}
-                onClick={() => setTheme((currentTheme) => (currentTheme === 'dark' ? 'light' : 'dark'))}
+                onClick={() =>
+                  setTheme((currentTheme) => (currentTheme === 'dark' ? 'light' : 'dark'))
+                }
               >
                 <span className="theme-icon" aria-hidden="true" />
               </button>
@@ -299,7 +303,12 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
                       </div>
                     )}
                   </div>
-                  <Form action={{ url: sharedProps.user.isAdmin ? '/logout' : '/user/logout', method: 'post' }}>
+                  <Form
+                    action={{
+                      url: sharedProps.user.isAdmin ? '/logout' : '/user/logout',
+                      method: 'post',
+                    }}
+                  >
                     <button type="submit" className="logout-button">
                       Déconnexion
                     </button>
@@ -308,9 +317,17 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
               ) : (
                 <>
                   {adminExists && (
-                    <a href={adminOnline ? '/user/login' : '/login'} className="auth-button auth-button-login">
-                      Connexion
-                    </a>
+                    <>
+                      <a href="/login" className="auth-button auth-button-login auth-button-admin">
+                        Connexion admin
+                      </a>
+                      <a
+                        href="/user/login"
+                        className="auth-button auth-button-login auth-button-user"
+                      >
+                        Connexion utilisateur
+                      </a>
+                    </>
                   )}
                   {!adminExists && (
                     <Link route="new_account.create" className="auth-button auth-button-signup">
@@ -328,13 +345,11 @@ export default function Layout({ children }: { children: ReactElement<Data.Share
         <div className="site-footer-grid">
           <div className="footer-brand">
             <a href="/" className="footer-logo-link">
-              <img
-                className="footer-logo"
-                src={cnssLogo}
-                alt="CNSS"
-              />
+              <img className="footer-logo" src={cnssLogo} alt="CNSS" />
             </a>
-            <p>Plateforme de gestion et localisation des entreprises enregistrées auprès de la CNSS.</p>
+            <p>
+              Plateforme de gestion et localisation des entreprises enregistrées auprès de la CNSS.
+            </p>
           </div>
 
           <div className="footer-column">

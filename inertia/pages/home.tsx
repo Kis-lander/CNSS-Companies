@@ -73,7 +73,7 @@ export default function Home({ companiesCount, companies = [] }: HomeProps) {
             type="search"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            placeholder="Ex: CNSS Kinshasa"
+            placeholder="Ex. : CNSS Kinshasa"
           />
 
           <div className="home-company-results">
@@ -96,9 +96,7 @@ export default function Home({ companiesCount, companies = [] }: HomeProps) {
                   <span>
                     <strong>{company.name}</strong>
                     <small>{company.address}</small>
-                    {company.affiliationNumber && (
-                      <small>Numéro d'affiliation: {company.affiliationNumber}</small>
-                    )}
+                    {company.affiliationNumber && <small>{company.affiliationNumber}</small>}
                     {company.phone && <small>{company.phone}</small>}
                   </span>
                 </a>

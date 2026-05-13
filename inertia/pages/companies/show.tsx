@@ -157,7 +157,7 @@ function popupContent(company: Company) {
       ${image}
       <strong>${escapeHtml(company.name)}</strong>
       <span>${escapeHtml(company.address)}</span>
-      ${company.affiliationNumber ? `<span>Numéro d'affiliation: ${escapeHtml(company.affiliationNumber)}</span>` : ''}
+      ${company.affiliationNumber ? `<span>${escapeHtml(company.affiliationNumber)}</span>` : ''}
       ${company.phone ? `<span>${escapeHtml(company.phone)}</span>` : ''}
     </div>
   `
@@ -268,7 +268,7 @@ export default function CompaniesShow({ company }: CompaniesShowProps) {
           <div>
             <h2>{company.name}</h2>
             <p>{company.address}</p>
-            {company.affiliationNumber && <p>Numéro d'affiliation: {company.affiliationNumber}</p>}
+            {company.affiliationNumber && <p>{company.affiliationNumber}</p>}
             {company.phone && <p>{company.phone}</p>}
             <span>
               {hasCoordinates

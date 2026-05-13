@@ -112,7 +112,7 @@ export default function EditCompany({ companies, selectedCompanyId }: EditCompan
                       name="phone"
                       id="phone"
                       defaultValue={selectedCompany.phone ?? ''}
-                      placeholder="Ex: +243 812 345 678"
+                      placeholder="Ex. : +243 812 345 678"
                       data-invalid={errors.phone ? 'true' : undefined}
                     />
                     {errors.phone && <div>{errors.phone}</div>}
@@ -125,7 +125,7 @@ export default function EditCompany({ companies, selectedCompanyId }: EditCompan
                       name="affiliationNumber"
                       id="affiliationNumber"
                       defaultValue={selectedCompany.affiliationNumber ?? ''}
-                      placeholder="Ex: AFF-2026-001"
+                      placeholder="Ex. : AFF-2026-001"
                       data-invalid={errors.affiliationNumber ? 'true' : undefined}
                     />
                     {errors.affiliationNumber && <div>{errors.affiliationNumber}</div>}

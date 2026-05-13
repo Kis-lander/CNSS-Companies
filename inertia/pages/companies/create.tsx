@@ -35,7 +35,7 @@ export default function CreateCompany({ companiesCount }: CreateCompanyProps) {
                     type="text"
                     name="name"
                     id="name"
-                    placeholder="Ex: CNSS Kinshasa"
+                    placeholder="Ex. : CNSS Kinshasa"
                     data-invalid={errors.name ? 'true' : undefined}
                   />
                   {errors.name && <div>{errors.name}</div>}
@@ -47,7 +47,7 @@ export default function CreateCompany({ companiesCount }: CreateCompanyProps) {
                     name="address"
                     id="address"
                     rows={4}
-                    placeholder="Ex: Renseigner l'adresse complète de l'entreprise"
+                    placeholder="Ex. : renseigner l'adresse complète de l'entreprise"
                     data-invalid={errors.address ? 'true' : undefined}
                   />
                   {errors.address && <div>{errors.address}</div>}
@@ -59,7 +59,7 @@ export default function CreateCompany({ companiesCount }: CreateCompanyProps) {
                     type="tel"
                     name="phone"
                     id="phone"
-                    placeholder="Ex: +243 812 345 678"
+                    placeholder="Ex. : +243 812 345 678"
                     data-invalid={errors.phone ? 'true' : undefined}
                   />
                   {errors.phone && <div>{errors.phone}</div>}
@@ -71,7 +71,7 @@ export default function CreateCompany({ companiesCount }: CreateCompanyProps) {
                     type="text"
                     name="affiliationNumber"
                     id="affiliationNumber"
-                    placeholder="Ex: AFF-2026-001"
+                    placeholder="Ex. : AFF-2026-001"
                     data-invalid={errors.affiliationNumber ? 'true' : undefined}
                   />
                   {errors.affiliationNumber && <div>{errors.affiliationNumber}</div>}

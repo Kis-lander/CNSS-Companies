@@ -25,7 +25,9 @@ export default class AccountController {
     }
 
     const fullName = request.input('fullName')?.trim() || null
-    const email = String(request.input('email') || '').trim().toLowerCase()
+    const email = String(request.input('email') || '')
+      .trim()
+      .toLowerCase()
     const currentPassword = String(request.input('currentPassword') || '')
     const password = String(request.input('password') || '')
     const passwordConfirmation = String(request.input('passwordConfirmation') || '')
@@ -38,7 +40,7 @@ export default class AccountController {
     const existingUser = await User.findBy('email', email)
 
     if (existingUser && existingUser.id !== user.id) {
-      session.flash('error', 'Cette adresse email est deja utilisee par un autre compte.')
+      session.flash('error', 'Cette adresse email est déjà utilisée par un autre compte.')
       return response.redirect().back()
     }
 
@@ -53,8 +55,8 @@ export default class AccountController {
     user.email = email
 
     if (password || passwordConfirmation) {
-      if (password.length < 8 || password.length > 32) {
-        session.flash('error', 'Le nouveau mot de passe doit contenir entre 8 et 32 caracteres.')
+      if (password.length < 12 || password.length > 128) {
+        session.flash('error', 'Le nouveau mot de passe doit contenir entre 12 et 128 caractères.')
         return response.redirect().back()
       }
 

@@ -1,6 +1,12 @@
 import User from '#models/user'
 import { getCurrentUser } from '#services/current_user_service'
-import { isAdminOnline, markAdminOffline, markAdminOnline } from '#services/admin_presence_service'
+import { markAdminOffline, markAdminOnline } from '#services/admin_presence_service'
+import {
+  clearLoginAttempts,
+  isLoginBlocked,
+  recordFailedLogin,
+} from '#services/login_attempt_service'
+import { loginValidator } from '#validators/user'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class SessionController {
@@ -31,38 +37,38 @@ export default class SessionController {
     })
   }
 
-  async create({ inertia, response }: HttpContext) {
-    const adminExists = await User.query().where('role', 'admin').first()
-
-    if (!adminExists) {
-      return response.redirect().toRoute('new_account.create')
-    }
-
-    if (isAdminOnline()) {
-      return response.redirect().toRoute('visitor.login')
-    }
-
+  async create({ inertia }: HttpContext) {
     return inertia.render('auth/login', {})
   }
 
   async store({ request, auth, response, session }: HttpContext) {
-    const { email, password } = request.all()
+    const payload = await request.validateUsing(loginValidator)
+    const email = payload.email.toLowerCase()
+    const attemptKey = `${request.ip()}:${email}`
+
+    if (isLoginBlocked(attemptKey)) {
+      session.flash('error', 'Trop de tentatives. Veuillez réessayer dans 15 minutes.')
+      return response.redirect().back()
+    }
+
     const existingUser = await User.findBy('email', email)
 
     if (existingUser && !existingUser.password) {
-      session.flash('error', 'Ce compte est enregistre pour la consultation seulement.')
+      session.flash('error', 'Ce compte est enregistré pour la consultation seulement.')
       return response.redirect().back()
     }
 
     try {
-      const user = await User.verifyCredentials(email, password)
+      const user = await User.verifyCredentials(email, payload.password)
 
       await auth.use('web').login(user)
+      clearLoginAttempts(attemptKey)
 
       if (user.isAdmin) {
         markAdminOnline()
       }
     } catch {
+      recordFailedLogin(attemptKey)
       session.flash('error', 'Email ou mot de passe incorrect.')
       return response.redirect().back()
     }
@@ -70,12 +76,7 @@ export default class SessionController {
     response.redirect().toRoute('home')
   }
 
-  async destroy({ auth, response, session }: HttpContext) {
-    if (session.get('visitor_email')) {
-      session.forget('visitor_email')
-      return response.redirect().toRoute('visitor.login')
-    }
-
+  async destroy({ auth, response }: HttpContext) {
     if (auth.user?.isAdmin) {
       markAdminOffline()
     }

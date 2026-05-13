@@ -72,7 +72,7 @@ export default function Help() {
           <>
             <h2>Conseil pour les adresses</h2>
             <p>
-              Utilisez un format précis comme: 11, Avenue Lubefu, Ngaliema, Kinshasa, RDC. Plus
+              Utilisez un format précis comme : 11, Avenue Lubefu, Ngaliema, Kinshasa, RDC. Plus
               l'adresse est complète, plus la localisation automatique a de chances de trouver une
               position correcte.
             </p>

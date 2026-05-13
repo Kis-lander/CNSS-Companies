@@ -6,11 +6,5 @@ export async function getCurrentUser(ctx: HttpContext) {
     return User.find(ctx.auth.user.id)
   }
 
-  const visitorEmail = ctx.session.get('visitor_email')
-
-  if (!visitorEmail) {
-    return null
-  }
-
-  return User.findBy('email', visitorEmail)
+  return null
 }

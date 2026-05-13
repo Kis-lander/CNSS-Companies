@@ -95,9 +95,7 @@ export default function CompaniesIndex({ companies }: CompaniesIndexProps) {
               <div>
                 <h3>{company.name}</h3>
                 <p>{company.address}</p>
-                {company.affiliationNumber && (
-                  <p>Numéro d'affiliation: {company.affiliationNumber}</p>
-                )}
+                {company.affiliationNumber && <p>{company.affiliationNumber}</p>}
                 {company.phone && <p>{company.phone}</p>}
                 <span>
                   {company.latitude !== null && company.longitude !== null

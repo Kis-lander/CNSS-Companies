@@ -5,7 +5,7 @@ export default function UserLogin() {
     <div className="form-container">
       <div>
         <h1>Connexion utilisateur</h1>
-        <p>Entrez votre adresse email pour accéder à la plateforme.</p>
+        <p>Connectez-vous avec votre adresse email et votre mot de passe.</p>
       </div>
 
       <div>
@@ -26,8 +26,20 @@ export default function UserLogin() {
               </div>
 
               <div>
+                <label htmlFor="password">Mot de passe</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  data-invalid={errors.password ? 'true' : undefined}
+                />
+                {errors.password && <div>{errors.password}</div>}
+              </div>
+
+              <div>
                 <button type="submit" className="visitor-register-button" disabled={processing}>
-                  {processing ? 'Vérification...' : 'Connexion'}
+                  {processing ? 'Connexion...' : 'Connexion'}
                 </button>
               </div>
 

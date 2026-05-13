@@ -83,14 +83,14 @@ export default class CompaniesController {
     return inertia.render('help', {})
   }
 
-  async index({ inertia, response, auth, session }: HttpContext) {
+  async index({ inertia, response, auth }: HttpContext) {
     const adminExists = await User.query().where('role', 'admin').first()
 
     if (!adminExists) {
-      return response.redirect().toRoute('new_account.create')
+      return response.redirect().toRoute('session.create')
     }
 
-    if (!auth.user && !session.get('visitor_email')) {
+    if (!auth.user) {
       return response.redirect().toRoute('session.create')
     }
 
@@ -184,12 +184,12 @@ export default class CompaniesController {
     }
 
     if ((latitude === null && longitude !== null) || (latitude !== null && longitude === null)) {
-      session.flash('error', 'La latitude et la longitude doivent etre renseignees ensemble.')
+      session.flash('error', 'La latitude et la longitude doivent être renseignées ensemble.')
       return response.redirect().back()
     }
 
     if (image && !image.isValid) {
-      session.flash('error', "L'image doit etre un fichier jpg, png ou webp de 5 Mo maximum.")
+      session.flash('error', "L'image doit être un fichier JPG, PNG ou WebP de 5 Mo maximum.")
       return response.redirect().back()
     }
 
@@ -252,7 +252,7 @@ export default class CompaniesController {
     })
 
     if (image && !image.isValid) {
-      session.flash('error', "L'image doit etre un fichier jpg, png ou webp de 5 Mo maximum.")
+      session.flash('error', "L'image doit être un fichier JPG, PNG ou WebP de 5 Mo maximum.")
       return response.redirect().back()
     }
 
@@ -261,7 +261,7 @@ export default class CompaniesController {
     if (!coordinates) {
       session.flash(
         'error',
-        "L'adresse n'a pas pu être localisée. Ajoutez plus de précision: avenue, commune, ville et RDC."
+        "L'adresse n'a pas pu être localisée. Ajoutez plus de précision : avenue, commune, ville et RDC."
       )
       return response.redirect().back()
     }

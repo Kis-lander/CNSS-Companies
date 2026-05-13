@@ -7,7 +7,7 @@ export default class AdminMiddleware {
     const user = await getCurrentUser(ctx)
 
     if (!user?.isAdmin) {
-      ctx.session.flash('error', "Seul l'administrateur CNSS peut gerer les acces.")
+      ctx.session.flash('error', "Seul l'administrateur CNSS peut gérer les accès.")
       return ctx.response.redirect().toRoute('home')
     }
 

@@ -5,10 +5,7 @@ export default function UserSignup() {
     <div className="form-container">
       <div>
         <h1>Inscription utilisateur</h1>
-        <p>
-          Entrez votre adresse email pour accéder à la recherche et à la localisation des
-          entreprises.
-        </p>
+        <p>Créez un compte pour accéder à la recherche et à la localisation des entreprises.</p>
       </div>
 
       <div>
@@ -42,8 +39,32 @@ export default function UserSignup() {
               </div>
 
               <div>
+                <label htmlFor="password">Mot de passe</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="new-password"
+                  data-invalid={errors.password ? 'true' : undefined}
+                />
+                {errors.password && <div>{errors.password}</div>}
+              </div>
+
+              <div>
+                <label htmlFor="passwordConfirmation">Confirmer le mot de passe</label>
+                <input
+                  id="passwordConfirmation"
+                  name="passwordConfirmation"
+                  type="password"
+                  autoComplete="new-password"
+                  data-invalid={errors.passwordConfirmation ? 'true' : undefined}
+                />
+                {errors.passwordConfirmation && <div>{errors.passwordConfirmation}</div>}
+              </div>
+
+              <div>
                 <button type="submit" className="visitor-register-button" disabled={processing}>
-                  {processing ? 'Vérification...' : "S'inscrire"}
+                  {processing ? 'Création...' : "S'inscrire"}
                 </button>
               </div>
             </>

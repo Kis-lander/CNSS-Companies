@@ -16,10 +16,13 @@ router.get('/auth/current', [controllers.Session, 'current']).as('auth.current')
 
 router.get('/user/signup', [controllers.NewAccount, 'createVisitor']).as('visitor.signup')
 router.get('/user/login', [controllers.NewAccount, 'createVisitorLogin']).as('visitor.login')
-router.post('/user/login', [controllers.NewAccount, 'registerViewer']).as('visitor.login.store')
+router.post('/user/login', [controllers.NewAccount, 'loginViewer']).as('visitor.login.store')
 router.get('/welcome', [controllers.NewAccount, 'welcomeVisitor']).as('visitor.welcome')
 router.post('/welcome/continue', [controllers.NewAccount, 'continueVisitor']).as('visitor.continue')
-router.post('/user/logout', [controllers.NewAccount, 'logoutVisitor']).as('visitor.logout')
+router
+  .post('/user/logout', [controllers.NewAccount, 'logoutVisitor'])
+  .use(middleware.auth())
+  .as('visitor.logout')
 
 router.get('/help', [controllers.Companies, 'help']).as('help')
 
@@ -85,6 +88,8 @@ router
   .group(() => {
     router.get('/account/edit', [controllers.Account, 'edit']).as('account.edit')
     router.post('/account', [controllers.Account, 'update']).as('account.update')
-    router.post('/admin/access/:id/delete', [controllers.Access, 'destroy']).as('admin.access.destroy')
+    router
+      .post('/admin/access/:id/delete', [controllers.Access, 'destroy'])
+      .as('admin.access.destroy')
   })
   .use(middleware.admin())

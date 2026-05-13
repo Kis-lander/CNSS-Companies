@@ -1,13 +1,13 @@
 # Gestion Entreprises CNSS
 
-Application web de gestion et de localisation des entreprises enregistrées auprès de la CNSS. Elle permet à un administrateur CNSS d'enregistrer et de modifier les entreprises, et aux utilisateurs visiteurs de rechercher une entreprise puis de consulter sa localisation.
+Application web de gestion et de localisation des entreprises enregistrées auprès de la CNSS. Elle permet à un administrateur CNSS d'enregistrer et de modifier les entreprises, à des gestionnaires autorisés de contribuer, et aux utilisateurs simples de rechercher une entreprise puis de consulter sa localisation.
 
 ## Liens
 
-- Application hebergee: https://gestion-entreprises-cnss.onrender.com
-- Manuel d'emploi: https://docs.google.com/présentation/d/1hUbrptMRvLWQe3412paHveAs3KNFEEilUH7SAi9Wehk/edit?usp=sharing
+- Application hébergée : https://gestion-entreprises-cnss.onrender.com
+- Manuel d'emploi : https://docs.google.com/presentation/d/1hUbrptMRvLWQe3412paHveAs3KNFEEilUH7SAi9Wehk/edit?usp=sharing
 
-## Stack (technologies)
+## Stack
 
 ### Backend
 
@@ -21,19 +21,22 @@ Application web de gestion et de localisation des entreprises enregistrées aupr
 - React
 - Vite
 
-## Fonctionnalites
+## Fonctionnalités
 
-- Creation unique du compte administrateur CNSS au premier lancement.
-- Connexion administrateur avec email et mot de passe.
-- Gestion des droits: l'administrateur peut donner à un autre compte le droit d'enregistrer et modifier les entreprises.
-- Enregistrement des utilisateurs par adresse email.
+- Création unique du compte administrateur CNSS au premier lancement.
+- Connexion par email et mot de passe pour les administrateurs, les gestionnaires et les utilisateurs.
+- Gestion des droits : l'administrateur peut donner à un autre compte le droit d'enregistrer et de modifier les entreprises.
+- Inscription utilisateur avec email reconnu et mot de passe.
+- Protection CSRF active sur les requêtes sensibles.
+- Sessions HTTP sécurisées avec cookies `httpOnly`, `secure` en production et `sameSite=lax`.
+- Limitation temporaire des tentatives de connexion après plusieurs échecs.
 - Recherche des entreprises par nom ou adresse.
 - Affichage des fiches entreprises avec image, adresse, téléphone et coordonnées.
 - Géocodage automatique des adresses via OpenStreetMap Nominatim.
 - Mode sombre.
-- Aide differente selon le profil: administrateur/gestionnaire ou utilisateur simple.
+- Aide différente selon le profil : administrateur/gestionnaire ou utilisateur simple.
 
-## Prerequis
+## Prérequis
 
 - Node.js 24 ou plus
 - npm
@@ -45,19 +48,19 @@ Application web de gestion et de localisation des entreprises enregistrées aupr
 npm install
 ```
 
-Copier le fichier d'environnement:
+Copier le fichier d'environnement :
 
 ```bash
 cp .env.example .env
 ```
 
-Générer la clé d'application:
+Générer la clé d'application :
 
 ```bash
 node ace generate:key
 ```
 
-Configurer la base PostgreSQL dans `.env`:
+Configurer la base PostgreSQL dans `.env` :
 
 ```env
 DB_CONNECTION=pg
@@ -68,52 +71,68 @@ DB_PASSWORD=your_password
 DB_DATABASE=gestion_entreprises_cnss
 ```
 
-Lancer les migrations:
+Lancer les migrations :
 
 ```bash
 node ace migration:run
 ```
 
-## Lancement en developpement
+## Lancement en développement
 
 ```bash
 npm run dev
 ```
 
-L'application demarre par defaut sur:
+L'application démarre par défaut sur :
 
 ```text
 http://localhost:3333
 ```
 
+## Authentification et sécurité
+
+L'application utilise l'authentification par session d'AdonisJS. Un utilisateur est considéré comme connecté seulement si le guard `web` a créé une vraie session authentifiée.
+
+Les anciens accès visiteurs basés uniquement sur l'email en session ne sont plus utilisés. Un email saisi ne suffit donc plus pour être reconnu comme utilisateur connecté.
+
+Règles principales :
+
+- Les nouveaux mots de passe doivent contenir entre 12 et 128 caractères.
+- Les formulaires de connexion administrateur et utilisateur sont limités après 5 échecs pendant une fenêtre de 15 minutes.
+- Les routes d'administration passent par le middleware `admin`.
+- Les routes de création et de modification d'entreprise passent par le middleware `manageCompanies`.
+- Le cookie de session est `httpOnly`, `secure` en production et `sameSite=lax`.
+- La protection CSRF est active pour les méthodes `POST`, `PUT`, `PATCH` et `DELETE`.
+
 ## Parcours administrateur
 
 Au premier lancement, si aucun administrateur n'existe encore:
 
-1. L'application affiche l'animation de chargement.
-2. Elle redirige vers la page `Sign up`.
-3. Le premier compte créé devient l'administrateur CNSS.
-4. Après inscription, l'administrateur est redirigé vers `Login`.
-5. Une fois connecté, il accède a la page d'accueil complète.
+1. L'application redirige vers `/login`.
+2. La page de connexion affiche le lien `Vous n'avez pas de compte ? S'inscrire`.
+3. Le lien ouvre `/signup`.
+4. Le premier compte créé devient l'administrateur CNSS.
+5. Après inscription, l'administrateur est redirigé vers `/login`.
+6. Une fois connecté, il accède à la page d'accueil complète.
 
 L'administrateur peut:
 
 - enregistrer une entreprise;
 - modifier une entreprise;
 - consulter toutes les pages;
-- ouvrir la page `Acces`;
-- donner ou retirer le droit de gestion à un autre utilisateur.
+- ouvrir la page `Accès`;
+- donner ou retirer le droit de gestion à un autre utilisateur;
+- supprimer un compte non administrateur.
 
 ## Parcours utilisateur
 
 Pour un utilisateur non administrateur:
 
-1. L'application affiche l'animation de chargement.
-2. Elle redirige vers l'inscription utilisateur par email.
-3. L'email est verifié comme adresse reconnue par Google ou Google Workspace.
-4. Si l'email n'est pas reconnu, le message suivant est affiche: `Cette adresse email n'existe pas`.
-5. Si l'email est accepté, l'utilisateur arrive sur une page de bienvenue.
-6. Le bouton `Chercher une entreprise` ouvre la page d'accueil utilisateur.
+1. L'utilisateur ouvre `/user/signup`.
+2. Il renseigne son nom, son email et un mot de passe.
+3. L'email est vérifié comme adresse reconnue par Google ou Google Workspace.
+4. Si l'email est accepté, un compte `viewer` est créé et l'utilisateur est connecté.
+5. Les connexions suivantes se font sur `/user/login` avec email et mot de passe.
 
 L'utilisateur peut:
 
@@ -124,10 +143,22 @@ L'utilisateur peut:
 
 L'utilisateur ne voit pas:
 
-- le bouton `Login`;
 - le bouton `Nouvelle entreprise`;
 - les pages d'enregistrement et de modification;
 - la page de gestion des accès.
+
+## Parcours gestionnaire
+
+Un gestionnaire est un utilisateur non administrateur auquel l'administrateur a donné le droit de gestion depuis `/admin/access`.
+
+Le gestionnaire peut:
+
+- se connecter avec email et mot de passe;
+- enregistrer une entreprise;
+- modifier une entreprise;
+- consulter les pages utilisateur.
+
+Il ne peut pas gérer les accès ni supprimer d'autres comptes.
 
 ## Scripts utiles
 
@@ -135,7 +166,7 @@ L'utilisateur ne voit pas:
 npm run dev
 ```
 
-Lance le serveur de developpement avec HMR.
+Lance le serveur de développement avec HMR.
 
 ```bash
 npm run build
@@ -153,7 +184,7 @@ Lance l'application compilée.
 npm run typecheck
 ```
 
-Verifie les types TypeScript côté serveur et côté Inertia.
+Vérifie les types TypeScript côté serveur et côté Inertia.
 
 ```bash
 npm run lint
@@ -165,28 +196,28 @@ Lance ESLint sur le projet.
 npm run test
 ```
 
-Lance les tests Japa. Actuellement, le projet ne contient pas encore de tests executés.
+Lance les tests Japa.
 
 ## Structure principale
 
 ```text
-app/controllers        Controleurs HTTP
+app/controllers        Contrôleurs HTTP
 app/middleware         Middlewares d'authentification et de droits
-app/models             Modeles Lucid
-app/services           Services metier, dont geocodage
+app/models             Modèles Lucid
+app/services           Services métier, géocodage et sécurité
 app/validators         Validateurs VineJS
-database/migrations    Migrations de base de donnees
+database/migrations    Migrations de base de données
 inertia/layouts        Layout principal
 inertia/pages          Pages React Inertia
 inertia/css/app.css    Styles globaux
-start/routes.ts        Declaration des routes
+start/routes.ts        Déclaration des routes
 ```
 
 ## Routes importantes
 
 - `/` : accueil et recherche d'entreprise.
-- `/user/signup` : inscription utilisateur par email.
-- `/welcome` : page de bienvenue utilisateur.
+- `/user/signup` : inscription utilisateur avec email et mot de passe.
+- `/user/login` : connexion utilisateur ou gestionnaire non administrateur.
 - `/login` : connexion administrateur ou gestionnaire.
 - `/signup` : création initiale de l'administrateur CNSS.
 - `/companies` : liste des entreprises.
@@ -198,6 +229,7 @@ start/routes.ts        Declaration des routes
 ## Notes
 
 - La création du compte administrateur CNSS est unique.
-- Les visiteurs sont identifiés par leur email dans la session de leur appareil.
-- Le géocodage utilise Nominatim et depend de la qualité de l'adresse fournie.
-- Pour de meilleurs resultats, saisir des adresses precises, par exemple: `11, Avenue Lubefu, Ngaliema, Kinshasa, RDC`.
+- Les utilisateurs ne sont plus identifiés par simple email en session : une vraie connexion par mot de passe est obligatoire.
+- Les anciens comptes visiteurs sans mot de passe doivent être recréés ou recevoir un mot de passe par l'administrateur.
+- Le géocodage utilise Nominatim et dépend de la qualité de l'adresse fournie.
+- Pour de meilleurs résultats, saisir des adresses précises, par exemple : `11, Avenue Lubefu, Ngaliema, Kinshasa, RDC`.

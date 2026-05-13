@@ -321,6 +321,16 @@ header {
 .auth-button-login:hover {
   background: var(--gray-3);
 }
+.auth-button-admin {
+  border-color: #2563eb;
+  background: #2563eb;
+  color: #ffffff !important;
+}
+.auth-button-admin:hover {
+  border-color: #1d4ed8;
+  background: #1d4ed8;
+  color: #ffffff !important;
+}
 .auth-button-signup {
   border: 1px solid #00a67e;
   background: #00a67e;
@@ -1644,4 +1654,3 @@ button:disabled {
     height: 72px;
   }
 }
-

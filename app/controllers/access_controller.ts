@@ -28,7 +28,7 @@ export default class AccessController {
     const user = await User.findBy('email', payload.email)
 
     if (user?.role === 'admin') {
-      session.flash('error', 'Le compte administrateur CNSS possede deja tous les droits.')
+      session.flash('error', 'Le compte administrateur CNSS possède déjà tous les droits.')
       return response.redirect().back()
     }
 
@@ -93,7 +93,7 @@ export default class AccessController {
     const user = await User.findOrFail(params.id)
 
     if (user.id === auth.user?.id || user.role === 'admin') {
-      session.flash('error', "Vous ne pouvez pas supprimer le compte administrateur CNSS.")
+      session.flash('error', 'Vous ne pouvez pas supprimer le compte administrateur CNSS.')
       return response.redirect().back()
     }
 

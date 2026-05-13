@@ -40,6 +40,10 @@ export default function Login() {
                   Connexion
                 </button>
               </div>
+
+              <p className="auth-switch-text">
+                Vous n&apos;avez pas de compte ? <a href="/signup">S&apos;inscrire</a>
+              </p>
             </>
           )}
         </Form>
