@@ -7,6 +7,7 @@ type Company = {
   name: string
   address: string
   phone: string | null
+  affiliationNumber: string | null
   image: string | null
   latitude: number | null
   longitude: number | null
@@ -33,7 +34,8 @@ export default function Home({ companiesCount, companies = [] }: HomeProps) {
       .filter((company) => {
         return (
           company.name.toLowerCase().includes(query) ||
-          company.address.toLowerCase().includes(query)
+          company.address.toLowerCase().includes(query) ||
+          (company.affiliationNumber?.toLowerCase().includes(query) ?? false)
         )
       })
       .slice(0, 8)
@@ -65,7 +67,7 @@ export default function Home({ companiesCount, companies = [] }: HomeProps) {
       <section className="home-workspace">
         <aside className="home-search-panel">
           <h2>Rechercher une entreprise</h2>
-          <label htmlFor="company-search">Nom ou adresse</label>
+          <label htmlFor="company-search">Nom, adresse ou numéro d'affiliation</label>
           <input
             id="company-search"
             type="search"
@@ -94,6 +96,9 @@ export default function Home({ companiesCount, companies = [] }: HomeProps) {
                   <span>
                     <strong>{company.name}</strong>
                     <small>{company.address}</small>
+                    {company.affiliationNumber && (
+                      <small>Numéro d'affiliation: {company.affiliationNumber}</small>
+                    )}
                     {company.phone && <small>{company.phone}</small>}
                   </span>
                 </a>

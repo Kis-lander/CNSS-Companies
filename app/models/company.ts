@@ -29,6 +29,9 @@ export default class Company extends BaseModel {
   declare phone: string | null
 
   @column()
+  declare affiliationNumber: string | null
+
+  @column()
   declare image: string | null
 
   @column({

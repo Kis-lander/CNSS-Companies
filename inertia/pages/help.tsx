@@ -4,11 +4,11 @@ import { Data } from '@generated/data'
 const adminHelpSteps = [
   {
     title: 'Enregistrer une entreprise',
-    text: "Ajoutez le nom, l'adresse, le numéro de téléphone et l'image. L'application cherche automatiquement les coordonnées à partir de l'adresse.",
+    text: "Ajoutez le nom, l'adresse, le numéro d'affiliation, le numéro de téléphone et l'image. L'application cherche automatiquement les coordonnées à partir de l'adresse.",
   },
   {
     title: "Rechercher depuis l'accueil",
-    text: "Utilisez le champ de recherche pour retrouver une entreprise par nom ou adresse, puis ouvrez sa fiche de localisation.",
+    text: "Utilisez le champ de recherche pour retrouver une entreprise par nom, adresse ou numéro d'affiliation, puis ouvrez sa fiche de localisation.",
   },
   {
     title: 'Consulter la carte',
@@ -16,14 +16,14 @@ const adminHelpSteps = [
   },
   {
     title: 'Modifier les informations',
-    text: "Mettez à jour le nom, l'adresse, le téléphone ou l'image. Si l'adresse change, les coordonnées peuvent être recalculées automatiquement.",
+    text: "Mettez à jour le nom, l'adresse, le numéro d'affiliation, le téléphone ou l'image. Si l'adresse change, les coordonnées peuvent être recalculées automatiquement.",
   },
 ]
 
 const userHelpSteps = [
   {
     title: "Rechercher depuis l'accueil",
-    text: "Utilisez le champ de recherche pour retrouver une entreprise par nom ou adresse, puis ouvrez sa fiche de localisation.",
+    text: "Utilisez le champ de recherche pour retrouver une entreprise par nom, adresse ou numéro d'affiliation, puis ouvrez sa fiche de localisation.",
   },
   {
     title: 'Consulter la localisation',
@@ -32,7 +32,9 @@ const userHelpSteps = [
 ]
 
 export default function Help() {
-  const page = usePage<Data.SharedProps & { user?: Data.SharedProps['user'] & { canManageCompanies?: boolean } }>()
+  const page = usePage<
+    Data.SharedProps & { user?: Data.SharedProps['user'] & { canManageCompanies?: boolean } }
+  >()
   const canManageCompanies = Boolean(page.props.user?.canManageCompanies)
   const helpSteps = canManageCompanies ? adminHelpSteps : userHelpSteps
 
@@ -70,16 +72,17 @@ export default function Help() {
           <>
             <h2>Conseil pour les adresses</h2>
             <p>
-              Utilisez un format précis comme: 11, Avenue Lubefu, Ngaliema, Kinshasa, RDC. Plus l'adresse est complète,
-              plus la localisation automatique a de chances de trouver une position correcte.
+              Utilisez un format précis comme: 11, Avenue Lubefu, Ngaliema, Kinshasa, RDC. Plus
+              l'adresse est complète, plus la localisation automatique a de chances de trouver une
+              position correcte.
             </p>
           </>
         ) : (
           <>
             <h2>Conseil de recherche</h2>
             <p>
-              Saisissez quelques lettres du nom ou de l'adresse. Si l'entreprise existe dans la base, ouvrez sa fiche
-              pour consulter sa position.
+              Saisissez quelques lettres du nom, de l'adresse ou du numéro d'affiliation. Si
+              l'entreprise existe dans la base, ouvrez sa fiche pour consulter sa position.
             </p>
           </>
         )}

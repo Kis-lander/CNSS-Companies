@@ -7,6 +7,7 @@ type Company = {
   name: string
   address: string
   phone: string | null
+  affiliationNumber: string | null
   image: string | null
   latitude: number | string | null
   longitude: number | string | null
@@ -156,19 +157,25 @@ function popupContent(company: Company) {
       ${image}
       <strong>${escapeHtml(company.name)}</strong>
       <span>${escapeHtml(company.address)}</span>
+      ${company.affiliationNumber ? `<span>Numéro d'affiliation: ${escapeHtml(company.affiliationNumber)}</span>` : ''}
       ${company.phone ? `<span>${escapeHtml(company.phone)}</span>` : ''}
     </div>
   `
 }
 
 export default function CompaniesShow({ company }: CompaniesShowProps) {
-  const page = usePage<Data.SharedProps & { user?: Data.SharedProps['user'] & { canManageCompanies?: boolean } }>()
+  const page = usePage<
+    Data.SharedProps & { user?: Data.SharedProps['user'] & { canManageCompanies?: boolean } }
+  >()
   const mapContainer = useRef<HTMLDivElement | null>(null)
   const canManageCompanies = Boolean(page.props.user?.canManageCompanies)
   const latitude = company.latitude === null ? null : Number(company.latitude)
   const longitude = company.longitude === null ? null : Number(company.longitude)
   const hasCoordinates =
-    latitude !== null && longitude !== null && Number.isFinite(latitude) && Number.isFinite(longitude)
+    latitude !== null &&
+    longitude !== null &&
+    Number.isFinite(latitude) &&
+    Number.isFinite(longitude)
 
   useEffect(() => {
     let map: MapLibreMap | null = null
@@ -179,7 +186,13 @@ export default function CompaniesShow({ company }: CompaniesShowProps) {
     }
 
     loadMapLibre().then(() => {
-      if (disposed || !mapContainer.current || !window.maplibregl || latitude === null || longitude === null) {
+      if (
+        disposed ||
+        !mapContainer.current ||
+        !window.maplibregl ||
+        latitude === null ||
+        longitude === null
+      ) {
         return
       }
 
@@ -202,8 +215,13 @@ export default function CompaniesShow({ company }: CompaniesShowProps) {
         map.resize()
       })
 
-      const popup = new maplibregl.Popup({ maxWidth: '280px', offset: 28 }).setHTML(popupContent(company))
-      const marker = new maplibregl.Marker({ color: '#2f7fbd' }).setLngLat(coordinates).setPopup(popup).addTo(map)
+      const popup = new maplibregl.Popup({ maxWidth: '280px', offset: 28 }).setHTML(
+        popupContent(company)
+      )
+      const marker = new maplibregl.Marker({ color: '#2f7fbd' })
+        .setLngLat(coordinates)
+        .setPopup(popup)
+        .addTo(map)
       marker.togglePopup()
     })
 
@@ -226,7 +244,10 @@ export default function CompaniesShow({ company }: CompaniesShowProps) {
           </a>
           {canManageCompanies && (
             <>
-              <a href={`/companies/${company.id}/edit`} className="button-link button-link-secondary">
+              <a
+                href={`/companies/${company.id}/edit`}
+                className="button-link button-link-secondary"
+              >
                 Modifier
               </a>
               <a href="/companies/create" className="button-link button-link-secondary">
@@ -247,6 +268,7 @@ export default function CompaniesShow({ company }: CompaniesShowProps) {
           <div>
             <h2>{company.name}</h2>
             <p>{company.address}</p>
+            {company.affiliationNumber && <p>Numéro d'affiliation: {company.affiliationNumber}</p>}
             {company.phone && <p>{company.phone}</p>}
             <span>
               {hasCoordinates

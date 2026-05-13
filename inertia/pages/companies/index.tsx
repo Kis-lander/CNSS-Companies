@@ -7,6 +7,7 @@ type Company = {
   name: string
   address: string
   phone: string | null
+  affiliationNumber: string | null
   image: string | null
   latitude: number | null
   longitude: number | null
@@ -17,7 +18,9 @@ type CompaniesIndexProps = {
 }
 
 export default function CompaniesIndex({ companies }: CompaniesIndexProps) {
-  const page = usePage<Data.SharedProps & { user?: Data.SharedProps['user'] & { canManageCompanies?: boolean } }>()
+  const page = usePage<
+    Data.SharedProps & { user?: Data.SharedProps['user'] & { canManageCompanies?: boolean } }
+  >()
   const [search, setSearch] = useState('')
   const filteredCompanies = useMemo(() => {
     const query = search.trim().toLowerCase()
@@ -26,7 +29,13 @@ export default function CompaniesIndex({ companies }: CompaniesIndexProps) {
       return companies
     }
 
-    return companies.filter((company) => company.name.toLowerCase().includes(query))
+    return companies.filter((company) => {
+      return (
+        company.name.toLowerCase().includes(query) ||
+        company.address.toLowerCase().includes(query) ||
+        (company.affiliationNumber?.toLowerCase().includes(query) ?? false)
+      )
+    })
   }, [companies, search])
 
   return (
@@ -43,7 +52,7 @@ export default function CompaniesIndex({ companies }: CompaniesIndexProps) {
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder="Rechercher une entreprise"
-            aria-label="Rechercher une entreprise"
+            aria-label="Rechercher une entreprise par nom, adresse ou numéro d'affiliation"
           />
           {page.props.user?.canManageCompanies && (
             <a href="/companies/create" className="button-link">
@@ -61,7 +70,10 @@ export default function CompaniesIndex({ companies }: CompaniesIndexProps) {
         {companies.length === 0 ? (
           <div className="empty-state">
             <h2>Aucune entreprise enregistrée</h2>
-            <p>Le formulaire d'enregistrement permet d'ajouter le nom, l'adresse, les coordonnées et l'image.</p>
+            <p>
+              Le formulaire d'enregistrement permet d'ajouter le nom, l'adresse, les coordonnées et
+              l'image.
+            </p>
           </div>
         ) : filteredCompanies.length === 0 ? (
           <div className="empty-state">
@@ -70,7 +82,11 @@ export default function CompaniesIndex({ companies }: CompaniesIndexProps) {
           </div>
         ) : (
           filteredCompanies.map((company) => (
-            <a className="company-card company-card-link" href={`/companies/${company.id}`} key={company.id}>
+            <a
+              className="company-card company-card-link"
+              href={`/companies/${company.id}`}
+              key={company.id}
+            >
               {company.image ? (
                 <img src={company.image} alt={company.name} />
               ) : (
@@ -79,6 +95,9 @@ export default function CompaniesIndex({ companies }: CompaniesIndexProps) {
               <div>
                 <h3>{company.name}</h3>
                 <p>{company.address}</p>
+                {company.affiliationNumber && (
+                  <p>Numéro d'affiliation: {company.affiliationNumber}</p>
+                )}
                 {company.phone && <p>{company.phone}</p>}
                 <span>
                   {company.latitude !== null && company.longitude !== null

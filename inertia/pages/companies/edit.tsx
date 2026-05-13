@@ -6,6 +6,7 @@ type Company = {
   name: string
   address: string
   phone: string | null
+  affiliationNumber: string | null
   image: string | null
   latitude: number | null
   longitude: number | null
@@ -31,7 +32,10 @@ export default function EditCompany({ companies, selectedCompanyId }: EditCompan
           <h1>Modifier une entreprise</h1>
         </div>
         <div className="toolbar-actions">
-          <a href={selectedCompany ? `/companies/${selectedCompany.id}` : '/companies'} className="button-link button-link-secondary">
+          <a
+            href={selectedCompany ? `/companies/${selectedCompany.id}` : '/companies'}
+            className="button-link button-link-secondary"
+          >
             Annuler
           </a>
         </div>
@@ -115,8 +119,26 @@ export default function EditCompany({ companies, selectedCompanyId }: EditCompan
                   </div>
 
                   <div>
+                    <label htmlFor="affiliationNumber">Numéro d'affiliation</label>
+                    <input
+                      type="text"
+                      name="affiliationNumber"
+                      id="affiliationNumber"
+                      defaultValue={selectedCompany.affiliationNumber ?? ''}
+                      placeholder="Ex: AFF-2026-001"
+                      data-invalid={errors.affiliationNumber ? 'true' : undefined}
+                    />
+                    {errors.affiliationNumber && <div>{errors.affiliationNumber}</div>}
+                  </div>
+
+                  <div>
                     <label htmlFor="image">Image de l'entreprise</label>
-                    <input type="file" name="image" id="image" accept="image/png,image/jpeg,image/webp" />
+                    <input
+                      type="file"
+                      name="image"
+                      id="image"
+                      accept="image/png,image/jpeg,image/webp"
+                    />
                   </div>
 
                   <div className="coordinate-grid">
@@ -155,7 +177,10 @@ export default function EditCompany({ companies, selectedCompanyId }: EditCompan
                     <button type="submit" className="company-submit-button" disabled={processing}>
                       {processing ? 'Enregistrement...' : 'Enregistrer'}
                     </button>
-                    <a href={`/companies/${selectedCompany.id}`} className="button-link button-link-secondary">
+                    <a
+                      href={`/companies/${selectedCompany.id}`}
+                      className="button-link button-link-secondary"
+                    >
                       Annuler
                     </a>
                   </div>

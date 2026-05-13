@@ -13,7 +13,6 @@ export default function CreateCompany({ companiesCount }: CreateCompanyProps) {
           <h1>Enregistrer une entreprise</h1>
         </div>
         <div className="toolbar-actions">
-
           <a href="/companies" className="button-link">
             Voir la liste
           </a>
@@ -67,8 +66,25 @@ export default function CreateCompany({ companiesCount }: CreateCompanyProps) {
                 </div>
 
                 <div>
+                  <label htmlFor="affiliationNumber">Numéro d'affiliation</label>
+                  <input
+                    type="text"
+                    name="affiliationNumber"
+                    id="affiliationNumber"
+                    placeholder="Ex: AFF-2026-001"
+                    data-invalid={errors.affiliationNumber ? 'true' : undefined}
+                  />
+                  {errors.affiliationNumber && <div>{errors.affiliationNumber}</div>}
+                </div>
+
+                <div>
                   <label htmlFor="image">Image de l'entreprise</label>
-                  <input type="file" name="image" id="image" accept="image/png,image/jpeg,image/webp" />
+                  <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    accept="image/png,image/jpeg,image/webp"
+                  />
                 </div>
 
                 <button type="submit" className="company-submit-button" disabled={processing}>

@@ -53,16 +53,17 @@ function serializeCompany(company: Company) {
     name: company.name,
     address: company.address,
     phone: company.phone,
+    affiliationNumber: company.affiliationNumber,
     image: company.image ? `/companies/${company.id}/image` : null,
     latitude: serializeCoordinate(company.latitude),
     longitude: serializeCoordinate(company.longitude),
   }
 }
 
-function normalizePhone(value: string | undefined) {
-  const phone = value?.trim()
+function normalizeOptionalText(value: string | undefined) {
+  const text = value?.trim()
 
-  return phone ? phone : null
+  return text ? text : null
 }
 
 async function imageToDataUrl(image: MultipartFile) {
@@ -71,7 +72,8 @@ async function imageToDataUrl(image: MultipartFile) {
   }
 
   const buffer = await readFile(image.tmpPath)
-  const mimeType = image.type && image.subtype ? `${image.type}/${image.subtype}` : `image/${image.extname}`
+  const mimeType =
+    image.type && image.subtype ? `${image.type}/${image.subtype}` : `image/${image.extname}`
 
   return `data:${mimeType};base64,${buffer.toString('base64')}`
 }
@@ -229,7 +231,8 @@ export default class CompaniesController {
     company.merge({
       name: payload.name,
       address: payload.address,
-      phone: normalizePhone(payload.phone),
+      phone: normalizeOptionalText(payload.phone),
+      affiliationNumber: normalizeOptionalText(payload.affiliationNumber),
       image: imagePath,
       latitude: coordinates?.latitude ?? null,
       longitude: coordinates?.longitude ?? null,
@@ -272,7 +275,8 @@ export default class CompaniesController {
     await Company.create({
       name: payload.name,
       address: payload.address,
-      phone: normalizePhone(payload.phone),
+      phone: normalizeOptionalText(payload.phone),
+      affiliationNumber: normalizeOptionalText(payload.affiliationNumber),
       image: imagePath,
       latitude: coordinates.latitude,
       longitude: coordinates.longitude,
