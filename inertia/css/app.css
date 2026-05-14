@@ -201,10 +201,10 @@ header {
   gap: 16px;
 }
 .header-navigation.is-admin {
-  gap: 1rem;
+  gap: 2rem;
 }
 .header-navigation.is-user {
-  gap: 2rem;
+  gap: 3rem;
 }
 .header-auth {
   display: flex;
